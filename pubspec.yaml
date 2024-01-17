@@ -1,5 +1,5 @@
 name: flutter_zakot
-description: "Zakot loyihasi."
+description: "Zakot loyihasi"
 publish_to: 'none'
 version: 0.1.0
 
@@ -9,11 +9,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
+  flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  very_good_analysis: ^5.1.0
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
