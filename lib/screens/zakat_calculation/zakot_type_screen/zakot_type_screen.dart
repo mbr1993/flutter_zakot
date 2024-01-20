@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/business_related_screen.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/debts_received_screen.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/gold_silver_screen.dart';
+import 'package:flutter_zakot/screens/zakat_calculation/livestock_screen.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/loans_given_screen.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/real_estate_screen.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/stock_investment_screen.dart';
@@ -90,7 +91,14 @@ class SelectingZakatTypeScreen extends StatelessWidget {
                           MaterialPageRoute<dynamic>(builder: (context) => const BusinessRelatedScreen()),
                         );
                       }),
-                  zakotTypeCard(text: 'Chorva mollari', onPressed: () {}),
+                  zakotTypeCard(
+                      text: 'Chorva mollari',
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<dynamic>(builder: (context) => const LiveStockScreen()),
+                        );
+                      }),
                 ],
               ),
             ),

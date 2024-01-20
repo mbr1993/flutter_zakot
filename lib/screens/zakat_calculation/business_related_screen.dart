@@ -17,8 +17,7 @@ class BusinessRelatedScreen extends StatelessWidget {
 
   Container _body(BuildContext context) {
     String text = '''
-    Kalkulyatorda har bir biznesingizni alohida nomlab, uning aktiv va majburiyatlari bo‘yicha maʼlumotlarni kiriting. Biznesdagi ulushingizni kiritish orqali siz ushbu biznesning sizga tegishli zakot to‘lanadigan qismini bilishingiz mumkin.
-
+    Kalkulyatorda har bir biznesingizni alohida nomlab, uning aktiv va majburiyatlari bo‘yicha maʼlumotlarni kiriting. Biznesdagi ulushingizni kiritish orqali siz ushbu biznesning sizga tegishli zakot to‘lanadigan qismini bilishingiz mumkin.\n
   Ayni vaqtda sizning bir necha biznesingiz bo‘lsa ularni alohidadan hisoblashingiz mumkin. Buni oson qilish uchun dastlab 1-biznes maʼlumotlarini to‘liq kiritib olganingizdan so‘ng keyingi biznes maʼlumotlarni kiritish imkoni paydo bo‘ladi.
     ''';
     return Container(
@@ -68,6 +67,36 @@ class BusinessRelatedScreen extends StatelessWidget {
             customTextField(helperText: 'Yarim tayyor mahsulotlar', controller: TextEditingController()),
             const SizedBox(height: 30),
             customTextField(helperText: 'Xomashyo', controller: TextEditingController()),
+            const SizedBox(height: 20),
+            Text('Biznes haqlari - debitorlik qarzlari', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(
+                'Biznesning haqlari (debitorlik qarzlari) zakot to‘lanadigan boylik hisoblanadi. Bunga xaridorlardan olinadigan haqlar va pul ko‘rinishida berilgan qarzlar kiradi.'),
+            const SizedBox(height: 20),
+            ExpandableText(
+              '''
+  • Qarzdor moliyaviy qiyinchilikda bo‘lsa, qarzini to‘lolmayotgan, ammo qarz to‘lanishidan umid bor bo‘lsa 2 usulda zakot to‘lash mumkin:
+    ○ (a) qarz qaytganda o‘tgan yillar uchun zakotni ado etish;
+    ○ (b) qarzdorlik qoldig‘idan har yili zakot berish.
+    Agar siz (a) usulni tanlasangiz, qarz qaytgan vaqtda barcha yillar uchun zakot to‘lashingiz lozim. Agar (b) usulni tanlasangiz, olinishi kutilayotgan qarz qoldig‘ini ushbu kalkulyatorga kiriting.
+  • Eʼtibor bering: Qarz qaytishidan umid uzilgan bo‘lsa, undan zakot to‘lanmaydi. Agar bunday qarz qaytib qolsa, ushbu qo‘liga tekkan yili uchungina zakot sanasi kelganda zakot to‘lanadi (yaʼni zakot o‘tgan yillarga chiqarilmaydi, balki olingan pul umumiy boylikka qo‘shib yuboriladi).''',
+              expandText: 'Ko\'proq ko\'rish',
+              maxLines: 3,
+              collapseText: 'Yopish',
+              collapseOnTextTap: true,
+              style: TextStyle(fontSize: 16),
+              expandOnTextTap: true,
+              linkStyle: const TextStyle(color: Colors.deepOrange, fontSize: 16),
+              animation: true,
+            ),
+            const SizedBox(height: 20),
+            customTextField(
+                helperText: 'Tovar, xom ashyo va xizmatlardan qarzlar', controller: TextEditingController()),
+            const SizedBox(height: 30),
+            customTextField(helperText: 'Pul ko‘rinishida olingan qarzlar', controller: TextEditingController()),
+            const SizedBox(height: 30),
+            customTextField(helperText: 'Soliq va majburiy to‘lovlardan qarzlar', controller: TextEditingController()),
+            const SizedBox(height: 30),
+            customTextField(helperText: 'Oylik va xodimlardan qarzlar', controller: TextEditingController()),
             const SizedBox(height: 30),
             Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
             Text('0 so\'m', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
