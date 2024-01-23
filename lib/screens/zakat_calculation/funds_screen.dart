@@ -19,7 +19,7 @@ class _FundsScreenState extends State<FundsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Pul mablag\'lari - shaxsiy')),
+      appBar: AppBar(title: const Text("Pul mablag'lari - shaxsiy")),
       body: _body(context),
     );
   }
@@ -31,7 +31,7 @@ class _FundsScreenState extends State<FundsScreen> {
         dragStartBehavior: DragStartBehavior.down,
         child: Column(
           children: [
-            Text(
+            const Text(
               ' Naqd pul, plastik kartadagi, joriy va jamg‘arma omonatlardagi barcha pul mablag‘laringiz miqdorini kiriting. Zakot hisoblash kunida barcha valyutadagi pul mablag‘larini tanlangan valyutada kiriting. \n\n'
               ' Eʼtibor bering: Bank omonatlarini kiritishda faqat omonatning asosiy miqdorini kiriting, hisoblangan foizlar kiritilmaydi.',
               style: TextStyle(fontSize: 15),
@@ -45,14 +45,14 @@ class _FundsScreenState extends State<FundsScreen> {
             const SizedBox(height: 20),
             customTextField(helperText: 'Jamg‘arma va boshqa omonatlar', controller: jamgarmaPullarController),
             const SizedBox(height: 20),
-            Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
-            Text('0 so\'m', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
+            const Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
+            const Text("0 so'm", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
             const SizedBox(height: 20),
             Row(
               children: [
                 CustomTextButton(title: 'Ortga', onPressed: () => Navigator.pop(context), color: Colors.red),
                 const SizedBox(width: 20),
-                CustomTextButton(title: 'Davom etish', onPressed: () {}, color: Colors.green)
+                CustomTextButton(title: 'Davom etish', onPressed: () {}, color: Colors.green),
               ],
             ),
           ],

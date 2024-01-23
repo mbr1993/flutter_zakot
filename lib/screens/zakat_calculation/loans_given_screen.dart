@@ -16,7 +16,7 @@ class LoansGivenScreen extends StatelessWidget {
   }
 
   Container _body(BuildContext context) {
-    String text = '''
+    const text = '''
     Eʼtibor bering: Korxonangizning debitorlik qarzlari va biznesga oid qarzlar “Biznesga oid” bo‘limida kiritiladi. Ushbu bo‘limda faqat shaxsiy qarzlarni kiriting.
 
 • Qarzdor moliyaviy jihatdan erkin va qarzini to‘lash niyatida hamda uni to‘lashga qodir bo‘lsa, bunday berilgan qarzlaridan har yili zakot to‘lanadi.
@@ -35,38 +35,40 @@ class LoansGivenScreen extends StatelessWidget {
         dragStartBehavior: DragStartBehavior.down,
         child: Column(
           children: [
-            Text(
+            const Text(
               ' Boshqalarga berilgan qarzlar (haqlar) zakot to‘lanadigan boylik hisoblanadi. Bunga qarz sifatida berilgan pul va tijorat mollarini sotishdan hosil bo‘lgan shaxsiy haqlar (berilgan qarzlar) kiradi.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
-            ExpandableText(
+            const ExpandableText(
               text,
-              expandText: 'Ko\'proq ko\'rish',
+              expandText: "Ko'proq ko'rish",
               maxLines: 3,
               collapseText: 'Yopish',
               collapseOnTextTap: true,
               style: TextStyle(fontSize: 16),
               expandOnTextTap: true,
-              linkStyle: const TextStyle(color: Colors.deepOrange, fontSize: 16),
+              linkStyle: TextStyle(color: Colors.deepOrange, fontSize: 16),
               animation: true,
             ),
             const SizedBox(height: 30),
             customTextField(
-                helperText: 'Pul ko‘rinishida berilgan qarzlar (haqlar)', controller: TextEditingController(text: '0')),
+              helperText: 'Pul ko‘rinishida berilgan qarzlar (haqlar)',
+              controller: TextEditingController(text: '0'),
+            ),
             const SizedBox(height: 30),
             customTextField(helperText: 'Tijoriy qarzlar (berilgan)', controller: TextEditingController(text: '0')),
             const SizedBox(height: 30),
             customTextField(helperText: 'Kechikkan qarzlar', controller: TextEditingController(text: '0')),
             const SizedBox(height: 30),
-            Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
-            Text('0 so\'m', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
+            const Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
+            const Text("0 so'm", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
             const SizedBox(height: 20),
             Row(
               children: [
                 CustomTextButton(title: 'Ortga', onPressed: () => Navigator.pop(context), color: Colors.red),
                 const SizedBox(width: 20),
-                CustomTextButton(title: 'Davom etish', onPressed: () {}, color: Colors.green)
+                CustomTextButton(title: 'Davom etish', onPressed: () {}, color: Colors.green),
               ],
             ),
           ],

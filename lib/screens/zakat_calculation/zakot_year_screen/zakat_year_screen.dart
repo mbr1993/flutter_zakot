@@ -22,7 +22,7 @@ class _SelectingZakatYearScreenState extends State<SelectingZakatYearScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Zakot hisoblash', style: TextStyle(fontWeight: FontWeight.bold))),
+      appBar: AppBar(title: const Text('Zakot hisoblash', style: TextStyle(fontWeight: FontWeight.bold))),
       body: SingleChildScrollView(
         dragStartBehavior: DragStartBehavior.down,
         child: Container(
@@ -42,9 +42,7 @@ class _SelectingZakatYearScreenState extends State<SelectingZakatYearScreen> {
                 menuList: years,
                 onSelected: (String? value) {
                   if (value != null) {
-                    setState(() {
-                      selectedYear = value;
-                    });
+                    setState(() => selectedYear = value);
                   }
                 },
               ),
@@ -60,19 +58,17 @@ class _SelectingZakatYearScreenState extends State<SelectingZakatYearScreen> {
                 menuList: currencies,
                 onSelected: (String? value) {
                   if (value != null) {
-                    setState(() {
-                      selectedCurrency = value;
-                    });
+                    setState(() => selectedCurrency = value);
                   }
                 },
               ),
               const SizedBox(height: 20),
               const Divider(),
-              const ListTileItem(title: "1 gramm oltin narxi", description: "420 000 so'm"),
-              const ListTileItem(title: "1 gramm kumush narxi", description: "9 084 so`m"),
-              const ListTileItem(title: "Dollar kursi", description: "12341.54 so`m"),
-              const ListTileItem(title: "Nisob miqdori (so'm)", description: "35 700 000 so`m"),
-              const ListTileItem(title: "Nisob miqdori (dollar) ", description: "2 892.670 \$"),
+              const ListTileItem(title: '1 gramm oltin narxi', description: "420 000 so'm"),
+              const ListTileItem(title: '1 gramm kumush narxi', description: '9 084 so`m'),
+              const ListTileItem(title: 'Dollar kursi', description: '12341.54 so`m'),
+              const ListTileItem(title: "Nisob miqdori (so'm)", description: '35 700 000 so`m'),
+              const ListTileItem(title: 'Nisob miqdori (dollar) ', description: r'2 892.670 $'),
               const SizedBox(height: 40),
               Row(
                 children: [

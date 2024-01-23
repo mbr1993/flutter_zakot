@@ -20,14 +20,14 @@ void customAlertDialog(
               actions: <Widget>[
                 CupertinoDialogAction(
                   isDestructiveAction: true,
-                  child: Text(negativeButtonText),
                   onPressed: negativeButtonPressed,
+                  child: Text(negativeButtonText),
                 ),
                 CupertinoDialogAction(
                   isDefaultAction: true,
-                  child: Text(positiveButtonText),
                   onPressed: positiveButtonPressed,
-                  textStyle: TextStyle(color: Colors.green),
+                  textStyle: const TextStyle(color: Colors.green),
+                  child: Text(positiveButtonText),
                 ),
               ],
             );
@@ -56,8 +56,8 @@ void customAlertDialog(
                             borderRadius: BorderRadius.all(Radius.circular(8)),
                           ),
                         ),
-                        child: Text(negativeButtonText),
                         onPressed: negativeButtonPressed,
+                        child: Text(negativeButtonText),
                       ),
                     ),
                     const SizedBox(width: 20),

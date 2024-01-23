@@ -2,22 +2,29 @@ import 'package:flutter/material.dart';
 
 Padding zakotTypeCard({
   required String text,
-  required VoidCallback onPressed,
+  required bool isChecked,
 }) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 5),
-    child: GestureDetector(
-      onTap: onPressed,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Center(
-            child: Text(
+    child: Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
               text,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
             ),
-          ),
+            if (isChecked)
+              const Icon(
+                Icons.check_circle_outline,
+                color: Colors.green,
+              )
+            else
+              const SizedBox(),
+          ],
         ),
       ),
     ),

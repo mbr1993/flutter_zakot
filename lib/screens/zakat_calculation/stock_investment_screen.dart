@@ -16,7 +16,7 @@ class StockInvestmentScreen extends StatelessWidget {
   }
 
   Container _body(BuildContext context) {
-    String text = '''
+    const text = '''
   Aksiyalarni sotish yoki ushlab turish niyatiga qarab zakot ikki usulda hisoblanadi:
     1.Qisqa vaqt mobaynida oldi-sotdi qilish ko‘zlangan aksiyalar: ularning joriy bozor narxidan zakot hisoblanadi;
     2.Uzoq muddat egalik qilish va dividend to‘lovlarini olish ko‘zlangan aksiyalar: xalqaro standartlarga ko‘ra bunday turdagi aksiyalarning 50% qiymatidan zakot to‘lanadi (sababi kompaniyaning asosiy vositalaridan zakot to‘lanmaydi).
@@ -31,42 +31,46 @@ Biznesga investitsiyalar
         dragStartBehavior: DragStartBehavior.down,
         child: Column(
           children: [
-            Text(
+            const Text(
               ' Investitsiya va aksiyalar zakotga tortiladigan boylik hisoblanadi. Ushbu investitsiya va aksiyalarning joriy bozor qiymatini kiriting.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 30),
-            ExpandableText(
+            const ExpandableText(
               text,
-              expandText: 'Ko\'proq ko\'rish',
+              expandText: "Ko'proq ko'rish",
               maxLines: 3,
               collapseText: 'Yopish',
               collapseOnTextTap: true,
               style: TextStyle(fontSize: 16),
               expandOnTextTap: true,
-              linkStyle: const TextStyle(color: Colors.deepOrange, fontSize: 16),
+              linkStyle: TextStyle(color: Colors.deepOrange, fontSize: 16),
               animation: true,
             ),
             const SizedBox(height: 30),
             customTextField(
-                helperText: 'Oldi-sotdi maqsadida olingan aksiyalar', controller: TextEditingController(text: '0')),
+              helperText: 'Oldi-sotdi maqsadida olingan aksiyalar',
+              controller: TextEditingController(text: '0'),
+            ),
             const SizedBox(height: 30),
             customTextField(
-                helperText: 'Uzoq muddat egalik qilish maqsadida olingan aksiyalar',
-                controller: TextEditingController()),
+              helperText: 'Uzoq muddat egalik qilish maqsadida olingan aksiyalar',
+              controller: TextEditingController(),
+            ),
             const SizedBox(height: 30),
             customTextField(
-                helperText: 'Sherikchilik va boshqa uzoq muddatli passiv investitsiyalar',
-                controller: TextEditingController()),
+              helperText: 'Sherikchilik va boshqa uzoq muddatli passiv investitsiyalar',
+              controller: TextEditingController(),
+            ),
             const SizedBox(height: 30),
-            Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
-            Text('0 so\'m', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
+            const Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
+            const Text("0 so'm", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
             const SizedBox(height: 20),
             Row(
               children: [
                 CustomTextButton(title: 'Ortga', onPressed: () => Navigator.pop(context), color: Colors.red),
                 const SizedBox(width: 20),
-                CustomTextButton(title: 'Davom etish', onPressed: () {}, color: Colors.green)
+                CustomTextButton(title: 'Davom etish', onPressed: () {}, color: Colors.green),
               ],
             ),
           ],

@@ -16,7 +16,7 @@ class DebtReceivedScreen extends StatelessWidget {
   }
 
   Container _body(BuildContext context) {
-    String text = '''
+    const text = '''
   • Qarzlar odatda biror mahsulot va xizmatlarni sotib olishdan yoki pul qarz olish orqali vujudga keladi.
   • Nasiyaga sotib olingan mahsulot yoki xizmatlar uchun to‘lanmagan qarzlar zakot hisoblanadigan miqdordan chegirib tashlanadi. Soliq va davlatga to‘lanishi lozim bo‘lgan joriy majburiy to‘lovlar ham zakot hisoblanadigan miqdordan ayirib tashlanadi.
   • Moliyaviy majburiyatlar va kreditlar bu pul ko‘rinishida olingan qarzlar yoki biror aktiv sotib olish uchun bank yoki moliya muassasalaridan olingan qarzlar bo‘lishi mumkin. Bunga baʼzi misollar quyidagilar:
@@ -37,56 +37,49 @@ class DebtReceivedScreen extends StatelessWidget {
         dragStartBehavior: DragStartBehavior.down,
         child: Column(
           children: [
-            Text(
+            const Text(
               ' Qarzlar zakot hisoblanadigan boylik miqdorini kamaytiradi. Kishining qarzidan ortgan moli nisobga yetsa zakot chiqaradi. Zakot chiqariladigan boylikni hisoblashda faqat to‘lov muddati kelgan yoki yaqin 12 oy ichida to‘lov muddati keladigan qarzlargina chegiriladi.',
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 30),
-            ExpandableText(
+            const ExpandableText(
               text,
-              expandText: 'Ko\'proq ko\'rish',
+              expandText: "Ko'proq ko'rish",
               maxLines: 3,
               collapseText: 'Yopish',
               collapseOnTextTap: true,
               style: TextStyle(fontSize: 16),
               expandOnTextTap: true,
-              linkStyle: const TextStyle(color: Colors.deepOrange, fontSize: 16),
+              linkStyle: TextStyle(color: Colors.deepOrange, fontSize: 16),
               animation: true,
             ),
             const SizedBox(height: 30),
             customTextField(
-                helperText: 'Pul ko‘rinishida olingan qarzlar - joriy qismi',
-                controller: TextEditingController(text: '0')),
+              helperText: 'Pul ko‘rinishida olingan qarzlar - joriy qismi',
+              controller: TextEditingController(text: '0'),
+            ),
             const SizedBox(height: 20),
-            Text(
+            const Text(
               'Bank, moliyaviy va muddatli to‘lovga savdo qiladigan muassasalar oldidagi qarzlar - joriy qismi.',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            customTextField(
-                helperText: 'Ipoteka krediti yoki muqobili',
-                controller: TextEditingController()),
+            customTextField(helperText: 'Ipoteka krediti yoki muqobili', controller: TextEditingController()),
             const SizedBox(height: 30),
-            customTextField(
-                helperText: 'Avtokredit yoki muqobili',
-                controller: TextEditingController()),
+            customTextField(helperText: 'Avtokredit yoki muqobili', controller: TextEditingController()),
             const SizedBox(height: 30),
-            customTextField(
-                helperText: 'Isteʼmol krediti yoki muqobili',
-                controller: TextEditingController()),
+            customTextField(helperText: 'Isteʼmol krediti yoki muqobili', controller: TextEditingController()),
             const SizedBox(height: 30),
-            customTextField(
-                helperText: 'Boshqa qarzlar',
-                controller: TextEditingController()),
+            customTextField(helperText: 'Boshqa qarzlar', controller: TextEditingController()),
             const SizedBox(height: 30),
-            Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
-            Text('0 so\'m', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
+            const Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
+            const Text("0 so'm", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
             const SizedBox(height: 20),
             Row(
               children: [
                 CustomTextButton(title: 'Ortga', onPressed: () => Navigator.pop(context), color: Colors.red),
                 const SizedBox(width: 20),
-                CustomTextButton(title: 'Davom etish', onPressed: () {}, color: Colors.green)
+                CustomTextButton(title: 'Davom etish', onPressed: () {}, color: Colors.green),
               ],
             ),
           ],

@@ -18,7 +18,7 @@ DropdownMenu<String> customDropdownMenu({
     requestFocusOnTap: true,
     onSelected: onSelected,
     inputDecorationTheme: InputDecorationTheme(
-      border: OutlineInputBorder(
+      border: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       fillColor: Colors.grey[200],
