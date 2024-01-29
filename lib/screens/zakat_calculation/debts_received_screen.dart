@@ -1,11 +1,40 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zakot/core/widgets/snacbar.dart';
+import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type.dart';
+import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type_enum.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/widgets/text_field.dart';
 import 'package:flutter_zakot/widgets/text_button.dart';
 
-class DebtReceivedScreen extends StatelessWidget {
-  const DebtReceivedScreen({super.key});
+class DebtReceivedScreen extends StatefulWidget {
+  const DebtReceivedScreen(this.zakotList, {super.key});
+
+  final List<ZakotType> zakotList;
+
+  @override
+  State<DebtReceivedScreen> createState() => _DebtReceivedScreenState();
+}
+
+class _DebtReceivedScreenState extends State<DebtReceivedScreen> {
+  final _olinganQarzlarController = TextEditingController();
+  final _ipotekaKreditController = TextEditingController();
+  final _autoKreditController = TextEditingController();
+  final _istemolKreditController = TextEditingController();
+  final _boshqaQarzlarController = TextEditingController();
+  double? jami;
+
+  void calculate() {
+    final olinganQarzlar = double.tryParse(_olinganQarzlarController.text) ?? 0;
+    final ipotekaKredit = double.tryParse(_ipotekaKreditController.text) ?? 0;
+    final autoKredit = double.tryParse(_autoKreditController.text) ?? 0;
+    final istemolKredit = double.tryParse(_istemolKreditController.text) ?? 0;
+    final boshqaQarzlar = double.tryParse(_boshqaQarzlarController.text) ?? 0;
+
+    setState(() {
+      jami = olinganQarzlar + ipotekaKredit + autoKredit + istemolKredit + boshqaQarzlar;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +83,10 @@ class DebtReceivedScreen extends StatelessWidget {
               animation: true,
             ),
             const SizedBox(height: 30),
-            customTextField(
+            CustomTextField(
               helperText: 'Pul ko‘rinishida olingan qarzlar - joriy qismi',
-              controller: TextEditingController(text: '0'),
+              controller: _olinganQarzlarController,
+              onChanged: (String? value) => calculate(),
             ),
             const SizedBox(height: 20),
             const Text(
@@ -64,22 +94,58 @@ class DebtReceivedScreen extends StatelessWidget {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            customTextField(helperText: 'Ipoteka krediti yoki muqobili', controller: TextEditingController()),
+            CustomTextField(
+              helperText: 'Ipoteka krediti yoki muqobili',
+              controller: _ipotekaKreditController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
-            customTextField(helperText: 'Avtokredit yoki muqobili', controller: TextEditingController()),
+            CustomTextField(
+              helperText: 'Avtokredit yoki muqobili',
+              controller: _autoKreditController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
-            customTextField(helperText: 'Isteʼmol krediti yoki muqobili', controller: TextEditingController()),
+            CustomTextField(
+              helperText: 'Isteʼmol krediti yoki muqobili',
+              controller: _istemolKreditController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
-            customTextField(helperText: 'Boshqa qarzlar', controller: TextEditingController()),
+            CustomTextField(
+              helperText: 'Boshqa qarzlar',
+              controller: _boshqaQarzlarController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
             const Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
-            const Text("0 so'm", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
+             Text("${jami ?? 0} so'm", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
             const SizedBox(height: 20),
             Row(
               children: [
                 CustomTextButton(title: 'Ortga', onPressed: () => Navigator.pop(context), color: Colors.red),
                 const SizedBox(width: 20),
-                CustomTextButton(title: 'Davom etish', onPressed: () {}, color: Colors.green),
+                CustomTextButton(
+                  title: 'Davom etish',
+                  onPressed: () {
+                    final index = widget.zakotList.indexOf(
+                      widget.zakotList.where((element) {
+                        return element.screen == ZakotTypeEnum.debtReceivedScreen;
+                      }).first,
+                    );
+                    if (widget.zakotList.length == (index + 1)) {
+                      CustomWidgets.showSnackBar(context, 'Oxirgi page chiqishi kere');
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<dynamic>(
+                          builder: (context) => widget.zakotList[index + 1].screen.getScreen(widget.zakotList),
+                        ),
+                      );
+                    }
+                  },
+                  color: Colors.green,
+                ),
               ],
             ),
           ],

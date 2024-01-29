@@ -1,11 +1,36 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zakot/core/widgets/snacbar.dart';
+import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type.dart';
+import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type_enum.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/widgets/text_field.dart';
 import 'package:flutter_zakot/widgets/text_button.dart';
 
-class LoansGivenScreen extends StatelessWidget {
-  const LoansGivenScreen({super.key});
+class LoansGivenScreen extends StatefulWidget {
+  const LoansGivenScreen(this.zakotList, {super.key});
+
+  final List<ZakotType> zakotList;
+
+  @override
+  State<LoansGivenScreen> createState() => _LoansGivenScreenState();
+}
+
+class _LoansGivenScreenState extends State<LoansGivenScreen> {
+  final _pulKorinishidagiQarzlarController = TextEditingController();
+  final _tijoriyQarzlarController = TextEditingController();
+  final _kechikkanQarzlarController = TextEditingController();
+  double? jami;
+
+  void calculate() {
+    final pulKorinishidagiQarzlar = double.tryParse(_pulKorinishidagiQarzlarController.text) ?? 0;
+    final tijoriyQarzlar = double.tryParse(_tijoriyQarzlarController.text) ?? 0;
+    final kechikkanQarzlar = double.tryParse(_kechikkanQarzlarController.text) ?? 0;
+
+    setState(() {
+      jami = pulKorinishidagiQarzlar + tijoriyQarzlar + kechikkanQarzlar;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,23 +77,50 @@ class LoansGivenScreen extends StatelessWidget {
               animation: true,
             ),
             const SizedBox(height: 30),
-            customTextField(
+            CustomTextField(
               helperText: 'Pul ko‘rinishida berilgan qarzlar (haqlar)',
-              controller: TextEditingController(text: '0'),
+              controller: _pulKorinishidagiQarzlarController,
+              onChanged: (String? value) => calculate(),
             ),
             const SizedBox(height: 30),
-            customTextField(helperText: 'Tijoriy qarzlar (berilgan)', controller: TextEditingController(text: '0')),
+            CustomTextField(
+              helperText: 'Tijoriy qarzlar (berilgan)',
+              controller: _tijoriyQarzlarController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
-            customTextField(helperText: 'Kechikkan qarzlar', controller: TextEditingController(text: '0')),
+            CustomTextField(
+              helperText: 'Kechikkan qarzlar',
+              controller: _kechikkanQarzlarController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
             const Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
-            const Text("0 so'm", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
+            Text("${jami ?? 0} so'm", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
             const SizedBox(height: 20),
             Row(
               children: [
                 CustomTextButton(title: 'Ortga', onPressed: () => Navigator.pop(context), color: Colors.red),
                 const SizedBox(width: 20),
-                CustomTextButton(title: 'Davom etish', onPressed: () {}, color: Colors.green),
+                CustomTextButton(
+                  title: 'Davom etish',
+                  onPressed: () {
+                    final index = widget.zakotList.indexOf(
+                      widget.zakotList.where((element) => element.screen == ZakotTypeEnum.loansGivenScreen).first,
+                    );
+                    if ((index + 1) == widget.zakotList.length) {
+                      CustomWidgets.showSnackBar(context, 'Oxirgi page chiqishi kere');
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<dynamic>(
+                          builder: (context) => widget.zakotList[index + 1].screen.getScreen(widget.zakotList),
+                        ),
+                      );
+                    }
+                  },
+                  color: Colors.green,
+                ),
               ],
             ),
           ],

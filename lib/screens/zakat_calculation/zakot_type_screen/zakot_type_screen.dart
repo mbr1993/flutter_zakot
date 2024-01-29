@@ -1,14 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_zakot/screens/zakat_calculation/business_related_screen.dart';
-import 'package:flutter_zakot/screens/zakat_calculation/debts_received_screen.dart';
-import 'package:flutter_zakot/screens/zakat_calculation/funds_screen.dart';
-import 'package:flutter_zakot/screens/zakat_calculation/gold_silver_screen.dart';
-import 'package:flutter_zakot/screens/zakat_calculation/livestock_screen.dart';
-import 'package:flutter_zakot/screens/zakat_calculation/loans_given_screen.dart';
+import 'package:flutter_zakot/core/widgets/snacbar.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type.dart';
-import 'package:flutter_zakot/screens/zakat_calculation/real_estate_screen.dart';
-import 'package:flutter_zakot/screens/zakat_calculation/stock_investment_screen.dart';
+import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type_enum.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/widgets/card_zakot_type.dart';
 import 'package:flutter_zakot/widgets/text_button.dart';
 
@@ -20,27 +14,18 @@ class SelectingZakatTypeScreen extends StatefulWidget {
 }
 
 class _SelectingZakatTypeScreenState extends State<SelectingZakatTypeScreen> {
-  List<ZakotType> zTypeList = [
-    ZakotType(title: "Pul mablag'lari - shaxsiy", isChecked: false),
-    ZakotType(title: 'Oltin / kumush', isChecked: false),
-    ZakotType(title: 'Berilgan qarzlar', isChecked: false),
-    ZakotType(title: 'Aksiya va Investitsiyalar', isChecked: false),
-    ZakotType(title: "Ko'chmas mulk", isChecked: false),
-    ZakotType(title: 'Olingan qarzlar', isChecked: false),
-    ZakotType(title: 'Biznesga oid', isChecked: false),
-    ZakotType(title: 'Chorva mollari', isChecked: false),
+  List<ZakotType> zakotTypeList = [
+    ZakotType(title: "Pul mablag'lari - shaxsiy", isChecked: false, screen: ZakotTypeEnum.fundsScreen),
+    ZakotType(title: 'Oltin / kumush', isChecked: false, screen: ZakotTypeEnum.goldSilverScreen),
+    ZakotType(title: 'Berilgan qarzlar', isChecked: false, screen: ZakotTypeEnum.loansGivenScreen),
+    ZakotType(title: 'Aksiya va Investitsiyalar', isChecked: false, screen: ZakotTypeEnum.stockInvestmentScreen),
+    ZakotType(title: "Ko'chmas mulk", isChecked: false, screen: ZakotTypeEnum.realEstateScreen),
+    ZakotType(title: 'Olingan qarzlar', isChecked: false, screen: ZakotTypeEnum.debtReceivedScreen),
+    ZakotType(title: 'Biznesga oid', isChecked: false, screen: ZakotTypeEnum.businessRelatedScreen),
+    ZakotType(title: 'Chorva mollari', isChecked: false, screen: ZakotTypeEnum.liveStockScreen),
   ];
 
-  final screens = [
-    const FundsScreen(),
-    const GoldSilverScreen(),
-    const LoansGivenScreen(),
-    const StockInvestmentScreen(),
-    const RealEstateScreen(),
-    const DebtReceivedScreen(),
-    const BusinessRelatedScreen(),
-    const LiveStockScreen(),
-  ];
+  List<ZakotType> newCheckedList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -70,15 +55,22 @@ class _SelectingZakatTypeScreenState extends State<SelectingZakatTypeScreen> {
                   const SizedBox(height: 20),
                   ListView.builder(
                     shrinkWrap: true,
-                    itemCount: zTypeList.length,
+                    itemCount: zakotTypeList.length,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        child: zakotTypeCard(
-                          text: zTypeList[index].title,
-                          isChecked: zTypeList[index].isChecked,
+                        child: ZakotTypeCard(
+                          text: zakotTypeList[index].title,
+                          isChecked: zakotTypeList[index].isChecked,
                         ),
-                        onTap: () => setState(() => zTypeList[index].isChecked = !zTypeList[index].isChecked),
+                        onTap: () {
+                          setState(() => zakotTypeList[index].isChecked = !zakotTypeList[index].isChecked);
+                          if (zakotTypeList[index].isChecked) {
+                            newCheckedList.add(zakotTypeList[index]);
+                          } else {
+                            newCheckedList.remove(zakotTypeList[index]);
+                          }
+                        },
                       );
                     },
                   ),
@@ -93,7 +85,18 @@ class _SelectingZakatTypeScreenState extends State<SelectingZakatTypeScreen> {
               const SizedBox(width: 20),
               CustomTextButton(
                 title: 'Davom etish',
-                onPressed: () {},
+                onPressed: () {
+                  if (newCheckedList.isEmpty) {
+                    CustomWidgets.showSnackBar(context, 'Hisoblash uchun biror zakot turini tanlang!');
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<dynamic>(
+                        builder: (context) => newCheckedList[0].screen.getScreen(newCheckedList),
+                      ),
+                    );
+                  }
+                },
                 color: Colors.green,
               ),
             ],

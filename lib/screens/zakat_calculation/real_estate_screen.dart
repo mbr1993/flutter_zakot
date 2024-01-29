@@ -1,11 +1,38 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zakot/core/widgets/snacbar.dart';
+import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type.dart';
+import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type_enum.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/widgets/text_field.dart';
 import 'package:flutter_zakot/widgets/text_button.dart';
 
-class RealEstateScreen extends StatelessWidget {
-  const RealEstateScreen({super.key});
+class RealEstateScreen extends StatefulWidget {
+  const RealEstateScreen(this.zakotList, {super.key});
+
+  final List<ZakotType> zakotList;
+
+  @override
+  State<RealEstateScreen> createState() => _RealEstateScreenState();
+}
+
+class _RealEstateScreenState extends State<RealEstateScreen> {
+  final _haridQilinganMulkController = TextEditingController();
+  final _foydalanilganVaIjaragaBerilganController = TextEditingController();
+  final _qurulishMulkController = TextEditingController();
+  final _kasoddanQochibOlinganMulkController = TextEditingController();
+  double? jami;
+
+  void calculate() {
+    final haridQilinganMulk = double.tryParse(_haridQilinganMulkController.text) ?? 0;
+    final foydalanilganVaIjaragaBerilganMulk = double.tryParse(_foydalanilganVaIjaragaBerilganController.text) ?? 0;
+    final qurulishMulk = double.tryParse(_qurulishMulkController.text) ?? 0;
+    final kasoddanQochibOlinganMulk = double.tryParse(_kasoddanQochibOlinganMulkController.text) ?? 0;
+
+    setState(() {
+      jami = haridQilinganMulk + foydalanilganVaIjaragaBerilganMulk + qurulishMulk + kasoddanQochibOlinganMulk;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,36 +69,58 @@ Ko‘chmas mulk tijorat maqsadida sotishni qatʼiy niyat qilmasdan sotib olinsa 
               animation: true,
             ),
             const SizedBox(height: 20),
-            customTextField(
+            CustomTextField(
               helperText: 'Oldi-sotdi maqsadida harid qilingan mulklar',
-              controller: TextEditingController(),
+              controller: _haridQilinganMulkController,
+              onChanged: (String? value) => calculate(),
             ),
             const SizedBox(height: 30),
-            customTextField(
+            CustomTextField(
               helperText:
                   'Oldi-sotdi niyatida olingan, ammo vaqtinchalik shaxsiy ehtiyoji uchun foydalanib turilgan yoki ijaraga berilgan ko‘chmas mulklarning taxminiy joriy bozor qiymati',
-              controller: TextEditingController(),
+              controller: _foydalanilganVaIjaragaBerilganController,
+              onChanged: (String? value) => calculate(),
             ),
             const SizedBox(height: 30),
-            customTextField(
+            CustomTextField(
               helperText: 'Qurilishi tugallanmagan, sotish uchun qurilayotgan ko‘chmas mulklarning joriy bozor qiymati',
-              controller: TextEditingController(),
+              controller: _qurulishMulkController,
+              onChanged: (String? value) => calculate(),
             ),
             const SizedBox(height: 30),
-            customTextField(
+            CustomTextField(
               helperText:
                   'Pulni kasod bo‘lishdan yoki mulk qiymatini saqlab qolishni da’vo qilib, zakotga tortiladigan boylikni kamaytirish maqsadida olingan ko‘chmas mulkning joriy bozor qiymati',
-              controller: TextEditingController(),
+              controller: _kasoddanQochibOlinganMulkController,
+              onChanged: (String? value) => calculate(),
             ),
             const SizedBox(height: 30),
             const Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
-            const Text("0 so'm", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
+            Text("${jami ?? 0} so'm", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
             const SizedBox(height: 20),
             Row(
               children: [
                 CustomTextButton(title: 'Ortga', onPressed: () => Navigator.pop(context), color: Colors.red),
                 const SizedBox(width: 20),
-                CustomTextButton(title: 'Davom etish', onPressed: () {}, color: Colors.green),
+                CustomTextButton(
+                  title: 'Davom etish',
+                  onPressed: () {
+                    final index = widget.zakotList.indexOf(
+                      widget.zakotList.where((element) => element.screen == ZakotTypeEnum.realEstateScreen).first,
+                    );
+                    if ((index + 1) == widget.zakotList.length) {
+                      CustomWidgets.showSnackBar(context, 'Oxirgi page chiqishi kere');
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<dynamic>(
+                          builder: (context) => widget.zakotList[index + 1].screen.getScreen(widget.zakotList),
+                        ),
+                      );
+                    }
+                  },
+                  color: Colors.green,
+                ),
               ],
             ),
           ],

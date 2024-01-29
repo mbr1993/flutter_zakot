@@ -1,11 +1,76 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zakot/core/widgets/snacbar.dart';
+import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type.dart';
+import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type_enum.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/widgets/text_field.dart';
 import 'package:flutter_zakot/widgets/text_button.dart';
 
-class BusinessRelatedScreen extends StatelessWidget {
-  const BusinessRelatedScreen({super.key});
+class BusinessRelatedScreen extends StatefulWidget {
+  const BusinessRelatedScreen(this.zakotList, {super.key});
+
+  final List<ZakotType> zakotList;
+
+  @override
+  State<BusinessRelatedScreen> createState() => _BusinessRelatedScreenState();
+}
+
+class _BusinessRelatedScreenState extends State<BusinessRelatedScreen> {
+  final _naqdPullarController = TextEditingController();
+  final _bankdagiPullarController = TextEditingController();
+
+  final _savdoMollarController = TextEditingController();
+  final _yoldagiMahsulotlarController = TextEditingController();
+  final _yarimTayyorMahsulotlarController = TextEditingController();
+  final _xomAshyolarController = TextEditingController();
+
+  final _xaridorlardanOlinadiganHaqlarController = TextEditingController();
+  final _berilganQarzlarController = TextEditingController();
+
+  final _korparativInvestitsiyalarController = TextEditingController();
+
+  final _xomAshyoQarzlarController = TextEditingController();
+  final _olinganQarzlarController = TextEditingController();
+  final _soliqTolovQarzlarController = TextEditingController();
+  final _oylikTolovQarzlarController = TextEditingController();
+  double? jami;
+
+  void calculate() {
+    final naqdPullar = double.tryParse(_naqdPullarController.text) ?? 0;
+    final bankdagiPullar = double.tryParse(_bankdagiPullarController.text) ?? 0;
+
+    final savdoMollar = double.tryParse(_savdoMollarController.text) ?? 0;
+    final yoldagiMahsulotlar = double.tryParse(_yoldagiMahsulotlarController.text) ?? 0;
+    final yarimTayyorMahsulotlar = double.tryParse(_yarimTayyorMahsulotlarController.text) ?? 0;
+    final xomAshyolar = double.tryParse(_xomAshyolarController.text) ?? 0;
+
+    final xaridorlardanOlinadiganHaqlar = double.tryParse(_xaridorlardanOlinadiganHaqlarController.text) ?? 0;
+    final berilganQarzlar = double.tryParse(_berilganQarzlarController.text) ?? 0;
+
+    final korparativInvestitsiyalar = double.tryParse(_korparativInvestitsiyalarController.text) ?? 0;
+
+    final tovarlar = double.tryParse(_xomAshyoQarzlarController.text) ?? 0;
+    final qarzlar = double.tryParse(_olinganQarzlarController.text) ?? 0;
+    final soliqTolovlar = double.tryParse(_soliqTolovQarzlarController.text) ?? 0;
+    final oylikTolovlar = double.tryParse(_oylikTolovQarzlarController.text) ?? 0;
+
+    setState(
+      () => jami = naqdPullar +
+          bankdagiPullar +
+          savdoMollar +
+          yoldagiMahsulotlar +
+          yarimTayyorMahsulotlar +
+          xomAshyolar +
+          xaridorlardanOlinadiganHaqlar +
+          berilganQarzlar +
+          korparativInvestitsiyalar +
+          tovarlar +
+          qarzlar +
+          soliqTolovlar +
+          oylikTolovlar,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,23 +115,51 @@ class BusinessRelatedScreen extends StatelessWidget {
               decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Biznes nomi'),
             ),
             const SizedBox(height: 30),
-            customTextField(helperText: 'Biznesdagi sizning ulushingiz (%)', controller: TextEditingController()),
+            CustomTextField(
+              helperText: 'Biznesdagi sizning ulushingiz (%)',
+              controller: TextEditingController(),
+              onChanged: (String? value) {},
+            ),
             const SizedBox(height: 30),
             const Text('Biznesning pul mablag‘lari', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
-            customTextField(helperText: 'Naqd pullar', controller: TextEditingController()),
+            CustomTextField(
+              helperText: 'Naqd pullar',
+              controller: _naqdPullarController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
-            customTextField(helperText: 'Bankdagi pullar', controller: TextEditingController()),
+            CustomTextField(
+              helperText: 'Bankdagi pullar',
+              controller: _bankdagiPullarController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
             const Text('Tijorat mollari', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
-            customTextField(helperText: 'Savdo mollari', controller: TextEditingController()),
+            CustomTextField(
+              helperText: 'Savdo mollari',
+              controller: _savdoMollarController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
-            customTextField(helperText: 'Yo‘ldagi mahsulotlar', controller: TextEditingController()),
+            CustomTextField(
+              helperText: 'Yo‘ldagi mahsulotlar',
+              controller: _yoldagiMahsulotlarController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
-            customTextField(helperText: 'Yarim tayyor mahsulotlar', controller: TextEditingController()),
+            CustomTextField(
+              helperText: 'Yarim tayyor mahsulotlar',
+              controller: _yarimTayyorMahsulotlarController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
-            customTextField(helperText: 'Xomashyo', controller: TextEditingController()),
+            CustomTextField(
+              helperText: 'Xomashyo',
+              controller: _xomAshyolarController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 20),
             const Text(
               'Biznes haqlari - debitorlik qarzlari',
@@ -93,25 +186,106 @@ class BusinessRelatedScreen extends StatelessWidget {
               animation: true,
             ),
             const SizedBox(height: 20),
-            customTextField(
-              helperText: 'Tovar, xom ashyo va xizmatlardan qarzlar',
-              controller: TextEditingController(),
+            CustomTextField(
+              helperText: 'Xaridorlardan olinadigan haqlar',
+              controller: _xaridorlardanOlinadiganHaqlarController,
+              onChanged: (String? value) => calculate(),
+            ),
+            const SizedBox(height: 20),
+            CustomTextField(
+              helperText: 'Pul ko‘rinishida berilgan qarzlar',
+              controller: _berilganQarzlarController,
+              onChanged: (String? value) => calculate(),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Biznesning investitsiyalari',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            CustomTextField(
+              helperText: 'Korporativ investitsiyalar',
+              controller: _korparativInvestitsiyalarController,
+              onChanged: (String? value) => calculate(),
             ),
             const SizedBox(height: 30),
-            customTextField(helperText: 'Pul ko‘rinishida olingan qarzlar', controller: TextEditingController()),
+            const Text(
+              'Biznesning qarzlari - kreditorlik qarzlari',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const Text(
+                'Qarzlar baʼzilari korxona uchun zakot hisoblanadigan boylik miqdorini kamaytiradi. Zakot chiqariladigan boylikni hisoblashda faqat to‘lov muddati kelgan yoki yaqin 12 oy ichida to‘lov muddati keladigan qarzlargina chegiriladi.'),
+            const SizedBox(height: 20),
+            const ExpandableText(
+              '''
+  Qarzlarning zakot hisoblash maqsadida ikki turga ajratish mumkin:
+    Ayriladigan qarzlar: Korxonaning savdo mollari, xom ashyo yoki xizmat sotib olish uchun mol yetkazib beruvchi yoki moliya muassasalari (masalan bank) oldidagi qarzlari, soliq va ishchilarning maoshlari bo‘yicha qarzlar zakot bazasini kamaytiradi (yaʼni ushbu kalkulyatorga kiritish lozim).
+      Agar ushbu qarzlarning to‘lov muddati 1 yildan ortiq bo‘lsa, faqat kelasi 12 oylik to‘lovlar summasi ayriladi.
+    ○ Masalan, korxonaga xom ashyo sotib olish uchun 3 yilga 120 million so‘mli krediti olingan. Kredit foizlari jami 50 million so‘mni tashkil qiladi deylik. Kelasi 12 oyda asosiy qarzning faqat 40 million so‘m (= 120 million / 3 yil) qismi zakot to‘lanadigan boylik qismidan ayriladi.
+    ○ Eʼtibor bering: Foizli kreditlar uchun faqat asosiy qarz qismi zakotni hisoblashda inobatga olinadi. Zakot sanasiga hisoblangan foiz (ribo) zakot hisoblanadigan miqdorni kamaytirmaydi.
+    ○ Eʼtibor bering: Foizli kreditlar uchun faqat asosiy qarz qismi zakotni hisoblashda inobatga olinadi. Zakot sanasiga hisoblangan foiz (ribo) zakot hisoblanadigan miqdorni kamaytirmaydi.''',
+              expandText: "Ko'proq ko'rish",
+              maxLines: 3,
+              collapseText: 'Yopish',
+              collapseOnTextTap: true,
+              style: TextStyle(fontSize: 16),
+              expandOnTextTap: true,
+              linkStyle: TextStyle(color: Colors.deepOrange, fontSize: 16),
+              animation: true,
+            ),
+            const SizedBox(height: 20),
+            CustomTextField(
+              helperText: 'Tovar, xom ashyo va xizmatlardan qarzlar',
+              controller: _xomAshyoQarzlarController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
-            customTextField(helperText: 'Soliq va majburiy to‘lovlardan qarzlar', controller: TextEditingController()),
+            CustomTextField(
+              helperText: 'Pul ko‘rinishida olingan qarzlar',
+              controller: _olinganQarzlarController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
-            customTextField(helperText: 'Oylik va xodimlardan qarzlar', controller: TextEditingController()),
+            CustomTextField(
+              helperText: 'Soliq va majburiy to‘lovlardan qarzlar',
+              controller: _soliqTolovQarzlarController,
+              onChanged: (String? value) => calculate(),
+            ),
+            const SizedBox(height: 30),
+            CustomTextField(
+              helperText: 'Oylik va xodimlardan qarzlar',
+              controller: _oylikTolovQarzlarController,
+              onChanged: (String? value) => calculate(),
+            ),
             const SizedBox(height: 30),
             const Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
-            const Text("0 so'm", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
+            Text("${jami ?? 0} so'm", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
             const SizedBox(height: 20),
             Row(
               children: [
                 CustomTextButton(title: 'Ortga', onPressed: () => Navigator.pop(context), color: Colors.red),
                 const SizedBox(width: 20),
-                CustomTextButton(title: 'Davom etish', onPressed: () {}, color: Colors.green),
+                CustomTextButton(
+                  title: 'Davom etish',
+                  onPressed: () {
+                    final index = widget.zakotList.indexOf(
+                      widget.zakotList.where((element) {
+                        return element.screen == ZakotTypeEnum.businessRelatedScreen;
+                      }).first,
+                    );
+                    if (widget.zakotList.length == (index + 1)) {
+                      CustomWidgets.showSnackBar(context, 'Oxirgi page chiqishi kere');
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<dynamic>(
+                          builder: (context) => widget.zakotList[index + 1].screen.getScreen(widget.zakotList),
+                        ),
+                      );
+                    }
+                  },
+                  color: Colors.green,
+                ),
               ],
             ),
           ],

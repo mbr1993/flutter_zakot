@@ -1,11 +1,36 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zakot/core/widgets/snacbar.dart';
+import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type.dart';
+import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type_enum.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/widgets/text_field.dart';
 import 'package:flutter_zakot/widgets/text_button.dart';
 
-class StockInvestmentScreen extends StatelessWidget {
-  const StockInvestmentScreen({super.key});
+class StockInvestmentScreen extends StatefulWidget {
+  const StockInvestmentScreen(this.zakotList, {super.key});
+
+  final List<ZakotType> zakotList;
+
+  @override
+  State<StockInvestmentScreen> createState() => _StockInvestmentScreenState();
+}
+
+class _StockInvestmentScreenState extends State<StockInvestmentScreen> {
+  final TextEditingController _oldiSotdiTextController = TextEditingController();
+  final TextEditingController _uzoqMuddatliTextController = TextEditingController();
+  final TextEditingController _sherikchilikTextController = TextEditingController();
+  double? jami;
+
+  void calculate() {
+    final oldiSotdi = double.tryParse(_oldiSotdiTextController.text) ?? 0;
+    final uzoqMuddatli = double.tryParse(_uzoqMuddatliTextController.text) ?? 0;
+    final sherikchilik = double.tryParse(_sherikchilikTextController.text) ?? 0;
+
+    setState(() {
+      jami = oldiSotdi + uzoqMuddatli + sherikchilik;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,29 +73,50 @@ Biznesga investitsiyalar
               animation: true,
             ),
             const SizedBox(height: 30),
-            customTextField(
+            CustomTextField(
               helperText: 'Oldi-sotdi maqsadida olingan aksiyalar',
-              controller: TextEditingController(text: '0'),
+              controller: _oldiSotdiTextController,
+              onChanged: (value) => calculate(),
             ),
             const SizedBox(height: 30),
-            customTextField(
+            CustomTextField(
               helperText: 'Uzoq muddat egalik qilish maqsadida olingan aksiyalar',
-              controller: TextEditingController(),
+              controller: _uzoqMuddatliTextController,
+              onChanged: (value) => calculate(),
             ),
             const SizedBox(height: 30),
-            customTextField(
+            CustomTextField(
               helperText: 'Sherikchilik va boshqa uzoq muddatli passiv investitsiyalar',
-              controller: TextEditingController(),
+              controller: _sherikchilikTextController,
+              onChanged: (value) => calculate(),
             ),
             const SizedBox(height: 30),
             const Text('Jami miqdor:', style: TextStyle(fontSize: 18)),
-            const Text("0 so'm", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
+            Text("${jami ?? 0} so'm", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28)),
             const SizedBox(height: 20),
             Row(
               children: [
                 CustomTextButton(title: 'Ortga', onPressed: () => Navigator.pop(context), color: Colors.red),
                 const SizedBox(width: 20),
-                CustomTextButton(title: 'Davom etish', onPressed: () {}, color: Colors.green),
+                CustomTextButton(
+                  title: 'Davom etish',
+                  onPressed: () {
+                    final index = widget.zakotList.indexOf(
+                      widget.zakotList.where((element) => element.screen == ZakotTypeEnum.stockInvestmentScreen).first,
+                    );
+                    if (widget.zakotList.length == (index + 1)) {
+                      CustomWidgets.showSnackBar(context, 'Oxirgi page chiqishi kere');
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<dynamic>(
+                          builder: (context) => widget.zakotList[index + 1].screen.getScreen(widget.zakotList),
+                        ),
+                      );
+                    }
+                  },
+                  color: Colors.green,
+                ),
               ],
             ),
           ],
