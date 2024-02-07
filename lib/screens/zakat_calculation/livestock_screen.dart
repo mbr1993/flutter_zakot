@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zakot/core/widgets/snacbar.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/model/zakot_type_enum.dart';
+import 'package:flutter_zakot/screens/zakat_calculation/total_count_screen.dart';
 import 'package:flutter_zakot/screens/zakat_calculation/widgets/text_field.dart';
 import 'package:flutter_zakot/widgets/text_button.dart';
 
@@ -80,7 +81,7 @@ class _LiveStockScreenState extends State<LiveStockScreen> {
                       }).first,
                     );
                     if ((index + 1) == widget.zakotList.length) {
-                      CustomWidgets.showSnackBar(context, 'Oxirgi page chiqishi kere');
+                      Navigator.push(context, MaterialPageRoute<dynamic>(builder: (context) => const TotalCountScreen()));
                     } else {
                       Navigator.push(
                         context,
